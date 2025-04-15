@@ -1,0 +1,12 @@
+
+server:
+  settings:
+    mode: "survival"
+    difficulty: "peaceful"
+    motd: "mine craften"
+    pvp: false
+    hardcore: false
+  port: 30565
+
+image:
+  tag: "latest"

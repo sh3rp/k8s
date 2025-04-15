@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mm
+  namespace: mm
+  labels:
+    app: mm
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: mm 
+  template:
+    metadata:
+      labels:
+        app: mm
+    spec:
+      containers:
+      - name: radarr
+        image: lscr.io/linuxserver/radarr:latest
+        imagePullPolicy: Always 
+        ports:
+        - containerPort: 7878
+      - name: sonarr
+        image: lscr.io/linuxserver/sonarr:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8989
+      - name: sabnzbd
+        image: lscr.io/linuxserver/sabnzbd:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080

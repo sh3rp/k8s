@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: buffalo-pv 
+  namespace: mm
+spec:
+  capacity:
+    storage: 4000Gi 
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: slow
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /mnt/array1/share
+    server: 192.168.1.250 

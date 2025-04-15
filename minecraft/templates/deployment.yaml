@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-java
+  namespace: minecraft
+  labels:
+    app: minecraft-java
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft-java
+  template:
+    metadata:
+      labels:
+        app: minecraft-java
+    spec:
+      volumes:
+      - name: minecraft-java-data
+        persistentVolumeClaim:
+          claimName: minecraft-java-data-pvc
+      containers:
+      - name: minecraft-java
+        image: itzg/minecraft-server:{{ .Values.image.tag | default "latest" }}
+        resources:
+          limits:
+            memory: 2Gi
+          requests:
+            memory: 2Gi
+        env:
+          - name: EULA
+            value: "TRUE"
+          - name: MODE
+            value: "{{ .Values.server.settings.mode | default "survival" }}"
+          - name: MOTD
+            value: "{{ .Values.server.settings.motd | default "Minecraft Server" }}"
+          - name: DIFFICULTY
+            value: "{{ .Values.server.settings.difficulty | default "peaceful" }}"
+          - name: HARDCORE
+            value: "{{ .Values.server.settings.hardcore | default "false" }}"
+          - name: PVP
+            value: "{{ .Values.server.settings.pvp | default "false" }}"
+        ports:
+        - containerPort: 25565
+          name: minecraft-java
+        volumeMounts:
+          - name: minecraft-java-data
+            mountPath: /data
